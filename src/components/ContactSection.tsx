@@ -55,13 +55,13 @@ const ContactSection = () => {
                   href={contact.href}
                   target={contact.href.startsWith('http') ? '_blank' : undefined}
                   rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="group flex flex-col items-center gap-3 p-6 rounded-xl bg-secondary/50 border border-border
+                  className="group flex flex-col items-center gap-3 p-5 rounded-xl bg-secondary/50 border border-border
                            hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
                 >
                   <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                     <contact.icon size={24} />
                   </div>
-                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors text-center">
+                  <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-foreground transition-colors text-center break-all max-w-full">
                     {contact.value}
                   </span>
                 </a>
