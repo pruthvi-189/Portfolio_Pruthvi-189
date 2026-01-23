@@ -1,6 +1,20 @@
-import { ArrowDown, FileDown, FolderOpen, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowDown, FileDown, FolderOpen } from 'lucide-react';
+import profileImage1 from '@/assets/profile-1.jpeg';
+import profileImage2 from '@/assets/profile-2.jpeg';
+
+const profileImages = [profileImage1, profileImage2];
 
 const HeroSection = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % profileImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Elements */}
@@ -67,7 +81,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right - Photo */}
+          {/* Right - Photo Carousel */}
           <div className="animate-fade-up-delay-2 flex justify-center lg:justify-end">
             <div className="relative">
               {/* Glow behind photo */}
@@ -75,23 +89,37 @@ const HeroSection = () => {
               
               {/* Photo Container */}
               <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary/30 subtle-glow">
-                {/* Placeholder - Replace with actual image */}
-                <div className="w-full h-full bg-gradient-to-br from-secondary to-card flex items-center justify-center">
-                  <User size={120} className="text-muted-foreground/30" />
-                </div>
-                {/* 
-                  To add your photo, replace the div above with:
-                  <img 
-                    src="/your-photo.jpg" 
-                    alt="Pruthvi Narayana Reddy" 
-                    className="w-full h-full object-cover"
+                {profileImages.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`Pruthvi Narayana Reddy - Photo ${index + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                      index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
                   />
-                */}
+                ))}
               </div>
 
-              {/* Decorative ring */}
+              {/* Decorative rings */}
               <div className="absolute inset-0 rounded-full border-2 border-primary/10 scale-110" />
               <div className="absolute inset-0 rounded-full border border-primary/5 scale-125" />
+
+              {/* Image indicators */}
+              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+                {profileImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentImageIndex 
+                        ? 'bg-primary w-6' 
+                        : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                    }`}
+                    aria-label={`View photo ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
