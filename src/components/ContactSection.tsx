@@ -1,4 +1,31 @@
-import { Mail, Linkedin, Github, Send } from 'lucide-react';
+import { Mail, Linkedin, Github, Phone } from 'lucide-react';
+
+const contactLinks = [
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+91 7022363858',
+    href: 'tel:+917022363858'
+  },
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'pruthvinarayanareddy@gmail.com',
+    href: 'mailto:pruthvinarayanareddy@gmail.com'
+  },
+  {
+    icon: Linkedin,
+    label: 'LinkedIn',
+    value: 'Pruthvi Narayana Reddy',
+    href: 'https://www.linkedin.com/in/pruthvi-narayana-reddy'
+  },
+  {
+    icon: Github,
+    label: 'GitHub',
+    value: 'pruthvi-189',
+    href: 'https://github.com/pruthvi-189'
+  }
+];
 
 const ContactSection = () => {
   return (
@@ -13,54 +40,43 @@ const ContactSection = () => {
           <div className="w-20 h-1 bg-primary rounded-full mx-auto" />
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="card-elevated p-8 md:p-12 text-center">
-            <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+        <div className="max-w-4xl mx-auto">
+          <div className="card-elevated p-8 md:p-12">
+            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto text-center">
               I'm always open to discussing new opportunities, interesting projects, 
               or collaborations in AI/ML and backend development.
             </p>
 
-            {/* Contact Links */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-              <a
-                href="mailto:pruthvi@example.com"
-                className="flex items-center gap-3 px-6 py-4 rounded-lg bg-primary text-primary-foreground 
-                         font-semibold hover:bg-primary/90 transition-all duration-300 glow-effect hover:scale-105 w-full sm:w-auto justify-center"
-              >
-                <Mail size={20} />
-                Get in Touch
-              </a>
+            {/* Contact Grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+              {contactLinks.map((contact, index) => (
+                <a
+                  key={index}
+                  href={contact.href}
+                  target={contact.href.startsWith('http') ? '_blank' : undefined}
+                  rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="group flex flex-col items-center gap-3 p-6 rounded-xl bg-secondary/50 border border-border
+                           hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+                >
+                  <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <contact.icon size={24} />
+                  </div>
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors text-center">
+                    {contact.value}
+                  </span>
+                </a>
+              ))}
             </div>
 
-            {/* Social Links */}
-            <div className="flex items-center justify-center gap-6">
+            {/* Quick CTA */}
+            <div className="text-center">
               <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 rounded-xl bg-secondary border border-border text-muted-foreground
-                         hover:text-primary hover:border-primary/50 transition-all duration-300"
-                aria-label="LinkedIn"
+                href="mailto:pruthvinarayanareddy@gmail.com"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-primary text-primary-foreground 
+                         font-semibold hover:bg-primary/90 transition-all duration-300 glow-effect hover:scale-105"
               >
-                <Linkedin size={24} />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 rounded-xl bg-secondary border border-border text-muted-foreground
-                         hover:text-primary hover:border-primary/50 transition-all duration-300"
-                aria-label="GitHub"
-              >
-                <Github size={24} />
-              </a>
-              <a
-                href="mailto:pruthvi@example.com"
-                className="p-4 rounded-xl bg-secondary border border-border text-muted-foreground
-                         hover:text-primary hover:border-primary/50 transition-all duration-300"
-                aria-label="Email"
-              >
-                <Send size={24} />
+                <Mail size={20} />
+                Send me an Email
               </a>
             </div>
           </div>
