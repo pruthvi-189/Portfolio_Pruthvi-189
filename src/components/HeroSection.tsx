@@ -71,12 +71,14 @@ const HeroSection = () => {
                 View Projects
               </a>
               <a
-                href="#contact"
+                href="/Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 px-8 py-4 rounded-lg border border-border bg-secondary/50
                            text-foreground font-semibold hover:bg-secondary hover:border-primary/50 transition-all duration-300"
               >
                 <FileDown size={20} />
-                Download Resume
+                View Resume
               </a>
             </div>
           </div>
