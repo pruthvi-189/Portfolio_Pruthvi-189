@@ -24,18 +24,21 @@ const AboutSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const currentRef = sectionRef.current;
+    if (!currentRef) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    observer.observe(currentRef);
 
     return () => observer.disconnect();
   }, []);
@@ -45,9 +48,12 @@ const AboutSection = () => {
       <div className="section-container">
         {/* Section Header */}
         <div 
-          className={`mb-16 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
-          }`}
+          className="mb-16"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateX(0)' : 'translateX(-48px)',
+            transition: 'opacity 0.7s ease-out, transform 0.7s ease-out'
+          }}
         >
           <span className="code-tag mb-4 inline-block">01. About</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -59,9 +65,12 @@ const AboutSection = () => {
         <div className="grid lg:grid-cols-5 gap-12 items-start">
           {/* Main Content */}
           <div 
-            className={`lg:col-span-3 space-y-6 transition-all duration-700 delay-200 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'
-            }`}
+            className="lg:col-span-3 space-y-6"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(-64px)',
+              transition: 'opacity 0.7s ease-out 0.2s, transform 0.7s ease-out 0.2s'
+            }}
           >
             <p className="text-lg text-muted-foreground leading-relaxed">
               I am a final-year Bachelor of Engineering student specializing in 
@@ -94,10 +103,12 @@ const AboutSection = () => {
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className={`card-elevated p-5 hover:border-primary/50 transition-all duration-500 group ${
-                  isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
-                }`}
-                style={{ transitionDelay: isVisible ? `${400 + index * 150}ms` : '0ms' }}
+                className="card-elevated p-5 hover:border-primary/50 group"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateX(0)' : 'translateX(-48px)',
+                  transition: `opacity 0.5s ease-out ${0.4 + index * 0.15}s, transform 0.5s ease-out ${0.4 + index * 0.15}s`
+                }}
               >
                 <div className="flex items-start gap-4">
                   <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
