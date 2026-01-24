@@ -55,7 +55,7 @@ const AboutSection = () => {
             transition: 'opacity 0.7s ease-out, transform 0.7s ease-out'
           }}
         >
-          <span className="code-tag mb-4 inline-block">01. About</span>
+          <span className="code-tag mb-4 inline-block">About</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             About <span className="gradient-text">Me</span>
           </h2>

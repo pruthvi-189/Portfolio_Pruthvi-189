@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowDown, FileDown, FolderOpen } from 'lucide-react';
+import { ArrowDown, FileDown, FileText, FolderOpen } from 'lucide-react';
 import profileImage1 from '@/assets/profile-1.jpeg';
 import profileImage2 from '@/assets/profile-2.jpeg';
 
@@ -28,7 +28,7 @@ const HeroSection = () => {
         style={{
           backgroundImage: `linear-gradient(hsl(217 91% 60%) 1px, transparent 1px),
                            linear-gradient(90deg, hsl(217 91% 60%) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
+          backgroundSize: '120px 120px'
         }}
       />
 
@@ -38,8 +38,8 @@ const HeroSection = () => {
           <div className="text-left">
             {/* Status Badge */}
             <div className="animate-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 border border-border mb-8">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm text-muted-foreground font-mono">Available for opportunities</span>
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-sm text-muted-foreground font-mono">Working</span>
             </div>
 
             {/* Name */}
@@ -61,23 +61,30 @@ const HeroSection = () => {
             </p>
 
             {/* CTA Buttons */}
-            <div className="animate-fade-up-delay-3 flex flex-col sm:flex-row items-start gap-4">
+            <div className="flex flex-wrap items-center gap-6">
+              {/* View Projects */}
               <a
                 href="#projects"
-                className="group flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold 
-                           hover:bg-primary/90 transition-all duration-300 glow-effect hover:scale-105"
+                className="group flex items-center gap-2 px-8 py-4 rounded-lg 
+                          bg-primary text-primary-foreground font-semibold
+                          hover:bg-primary/90 transition-all duration-300 
+                          glow-effect hover:scale-105"
               >
                 <FolderOpen size={20} />
                 View Projects
               </a>
+
+              {/* View Resume */}
               <a
                 href="/Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-8 py-4 rounded-lg border border-border bg-secondary/50
-                           text-foreground font-semibold hover:bg-secondary hover:border-primary/50 transition-all duration-300"
+                className="group flex items-center gap-2 px-8 py-4 rounded-lg 
+                          bg-primary text-primary-foreground font-semibold
+                          hover:bg-primary/90 transition-all duration-300 
+                          glow-effect hover:scale-105"
               >
-                <FileDown size={20} />
+                <FileText size={20} />
                 View Resume
               </a>
             </div>

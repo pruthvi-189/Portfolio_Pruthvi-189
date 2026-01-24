@@ -5,73 +5,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @layer base {
-  :root {
-    /* Deep slate background with blue undertones */
-    --background: 222 47% 6%;
-    --foreground: 210 40% 96%;
+    :root {
+    --background: 0 0% 5%;            /* near-black */
+    --foreground: 0 0% 95%;           /* off-white text */
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 96%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
 
-    /* Electric blue accent */
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 6%;
+    --primary: 45 90% 55%;            /* GOLD */
+    --primary-foreground: 0 0% 5%;    /* black text on gold */
 
-    --secondary: 222 47% 12%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 222 30% 15%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 222 47% 6%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 0 0% 5%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 222 30% 18%;
-    --input: 222 30% 18%;
-    --ring: 217 91% 60%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 45 90% 55%;
 
     --radius: 0.75rem;
-
-    /* Custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(250 91% 65%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 47% 4%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(222 47% 10%) 0%, hsl(222 47% 7%) 100%);
-    --glow-primary: 0 0 40px hsl(217 91% 60% / 0.3);
-    --glow-subtle: 0 0 60px hsl(217 91% 60% / 0.15);
-    
-    /* Typography */
-    --font-sans: 'Inter', system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-
-    /* Spacing */
-    --section-padding: clamp(4rem, 10vw, 8rem);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
   }
 
-  html {
-    scroll-behavior: smooth;
+  /* Optional dark class (same palette for consistency) */
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
   }
 
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans);
   }
 
-  ::selection {
-    background: hsl(217 91% 60% / 0.3);
-    color: hsl(210 40% 98%);
-  }
+  @layer base {
+    * {
+      @apply border-border;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      @apply bg-background text-foreground antialiased;
+      font-family: var(--font-sans);
+    }
+
+    ::selection {
+      background: hsl(217 91% 60% / 0.3);
+      color: hsl(210 40% 98%);
+    }
 }
 
 @layer components {
@@ -80,11 +68,19 @@
   }
 
   .gradient-text {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  background: linear-gradient(
+    90deg,
+    hsl(43, 23%, 94%),   /* gold */
+    hsl(49, 62%, 60%),  /* light gold */
+    hsl(42, 94%, 20%)    /* deep gold */
+  );
+  
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 
   .card-elevated {
     background: var(--gradient-card);
@@ -177,3 +173,107 @@
     text-wrap: balance;
   }
 }
+/* ===== Skill badge magnetic interaction ===== */
+
+.skill-badge {
+  position: relative;
+  padding: 0.5rem 0.9rem;
+  border-radius: 9999px;
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+
+  transition: transform 0.15s ease-out, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.skill-badge:hover {
+  box-shadow: 0 0 28px hsla(45, 90%, 55%, 0.45);
+}
+
+/* letters react on every hover */
+.skill-badge:hover .skill-letter {
+  animation: letter-jiggle 0.35s ease;
+}
+
+.skill-letter {
+  display: inline-block;
+}
+
+@keyframes letter-jiggle {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+/* ===== Tech stack magnetic cards ===== */
+
+.tech-card {
+  transition: box-shadow 0.25s ease;
+}
+
+.tech-card:hover {
+  box-shadow: 0 0 35px hsla(45, 90%, 55%, 0.35);
+}
+/* ===== Experience section animations ===== */
+
+.experience-card {
+  transition: transform 0.2s ease-out, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.experience-card:hover {
+  box-shadow: 0 0 30px hsla(45, 90%, 55%, 0.35);
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: hsl(var(--primary));
+  box-shadow: 0 0 0 0 hsla(45, 90%, 55%, 0.6);
+  transition: box-shadow 0.3s ease;
+}
+
+.experience-card:hover + .timeline-dot,
+.experience-card:hover ~ .timeline-dot {
+  box-shadow: 0 0 12px hsla(45, 90%, 55%, 0.9);
+}
+
+/* education card */
+.education-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.education-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 35px hsla(45, 90%, 55%, 0.4);
+}
+/* ===== Navbar typing animation ===== */
+
+.typing-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid hsl(var(--primary));
+  width: 0;
+  animation: typing 2.2s steps(3, end) forwards, blink 0.8s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 3ch; /* P N R */
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+

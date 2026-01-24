@@ -30,9 +30,10 @@ const Navbar = () => {
       <div className="section-container">
         <div className="flex items-center justify-between h-16 md:h-20">
           <a href="#" className="font-mono text-lg font-medium text-primary">
-            {'<PN />'}
-          </a>
-
+          &lt;
+          <span className="typing-text">PNR</span>
+          &gt;
+        </a>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
