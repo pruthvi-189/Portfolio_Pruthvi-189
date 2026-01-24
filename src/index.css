@@ -276,4 +276,32 @@
     border-color: transparent;
   }
 }
+@keyframes typing-name {
+  from {
+    width: 0;
+  }
+  to {
+    width: 23ch; /* Length of "Pruthvi Narayana Reddy" */
+  }
+}
+/* ===== Footer typing animation ===== */
+
+.footer-typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: 2px solid hsl(var(--primary));
+  animation: footer-typing 3.8s steps(23, end) forwards,
+             blink 0.8s step-end infinite;
+}
+
+@keyframes footer-typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 23ch; /* "Pruthvi Narayana Reddy" */
+  }
+}
 

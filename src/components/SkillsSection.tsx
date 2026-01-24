@@ -130,20 +130,25 @@ const SkillsSection = () => {
             </div>
             {/* Python */}
             <div
-              className="tech-card space-y-2"
+              className="tech-card"
               onMouseMove={(e) => {
+                const target = e.currentTarget.querySelector('.tech-content') as HTMLElement
                 const rect = e.currentTarget.getBoundingClientRect()
                 const x = e.clientX - rect.left - rect.width / 2
                 const y = e.clientY - rect.top - rect.height / 2
-                e.currentTarget.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`
+                target.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translate(0,0)'
+                const target = e.currentTarget.querySelector('.tech-content') as HTMLElement
+                target.style.transform = 'translate(0,0)'
               }}
             >
-              <span className="text-4xl font-bold gradient-text">Python</span>
-              <p className="text-sm text-muted-foreground">Primary Language</p>
+              <div className="tech-content space-y-2 transition-transform duration-200 ease-out">
+                <span className="text-4xl font-bold gradient-text">Python</span>
+                <p className="text-sm text-muted-foreground">Core Expertise</p>
+              </div>
             </div>
+
 
             {/* APIs */}
             <div
