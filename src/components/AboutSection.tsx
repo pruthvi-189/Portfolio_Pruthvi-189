@@ -1,4 +1,5 @@
 import { Brain, Server, Code2, MapPin } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const highlights = [
   {
@@ -19,11 +20,35 @@ const highlights = [
 ];
 
 const AboutSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="about" className="py-24 md:py-32 relative">
+    <section id="about" ref={sectionRef} className="py-24 md:py-32 relative overflow-hidden">
       <div className="section-container">
         {/* Section Header */}
-        <div className="mb-16">
+        <div 
+          className={`mb-16 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+          }`}
+        >
           <span className="code-tag mb-4 inline-block">01. About</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             About <span className="gradient-text">Me</span>
@@ -33,7 +58,11 @@ const AboutSection = () => {
 
         <div className="grid lg:grid-cols-5 gap-12 items-start">
           {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
+          <div 
+            className={`lg:col-span-3 space-y-6 transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'
+            }`}
+          >
             <p className="text-lg text-muted-foreground leading-relaxed">
               I am a final-year Bachelor of Engineering student specializing in 
               <span className="text-foreground font-medium"> Artificial Intelligence and Machine Learning</span>, 
@@ -65,7 +94,10 @@ const AboutSection = () => {
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className="card-elevated p-5 hover:border-primary/50 transition-all duration-300 group"
+                className={`card-elevated p-5 hover:border-primary/50 transition-all duration-500 group ${
+                  isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                }`}
+                style={{ transitionDelay: isVisible ? `${400 + index * 150}ms` : '0ms' }}
               >
                 <div className="flex items-start gap-4">
                   <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
