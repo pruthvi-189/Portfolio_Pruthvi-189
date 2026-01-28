@@ -4,63 +4,43 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
+/* ================= BASE ================= */
+
 @layer base {
-    :root {
-    --background: 0 0% 5%;            /* near-black */
-    --foreground: 0 0% 95%;           /* off-white text */
+  :root {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
 
     --card: 0 0% 8%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 95%;
-
-    --primary: 45 90% 55%;            /* GOLD */
-    --primary-foreground: 0 0% 5%;    /* black text on gold */
-
+    --primary: 45 90% 55%;
     --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 90%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-
-    --accent: 45 90% 55%;
-    --accent-foreground: 0 0% 5%;
-
     --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 45 90% 55%;
 
     --radius: 0.75rem;
   }
 
-  /* Optional dark class (same palette for consistency) */
-  .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 95%;
+  * {
+    @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
   }
 
-  @layer base {
-    * {
-      @apply border-border;
-    }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      @apply bg-background text-foreground antialiased;
-      font-family: var(--font-sans);
-    }
-
-    ::selection {
-      background: hsl(217 91% 60% / 0.3);
-      color: hsl(210 40% 98%);
-    }
+  ::selection {
+    background: hsl(45 90% 55% / 0.35);
+    color: hsl(0 0% 100%);
+  }
 }
+
+/* ================= COMPONENTS ================= */
 
 @layer components {
   .section-container {
@@ -68,32 +48,22 @@
   }
 
   .gradient-text {
-  background: linear-gradient(
-    90deg,
-    hsl(43, 23%, 94%),   /* gold */
-    hsl(49, 62%, 60%),  /* light gold */
-    hsl(42, 94%, 20%)    /* deep gold */
-  );
-  
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
+    background: linear-gradient(
+      90deg,
+      hsl(43 23% 94%),
+      hsl(49 62% 60%),
+      hsl(42 94% 20%)
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
 
   .card-elevated {
-    background: var(--gradient-card);
+    background: transparent;
+    box-shadow: none;
     @apply border border-border rounded-xl;
-    box-shadow: 0 4px 24px hsl(0 0% 0% / 0.4);
-  }
-
-  .glow-effect {
-    box-shadow: var(--glow-primary);
-  }
-
-  .subtle-glow {
-    box-shadow: var(--glow-subtle);
   }
 
   .code-tag {
@@ -113,94 +83,29 @@
     @apply w-full;
   }
 
+  /* ---------- Skill badge ---------- */
+
   .skill-badge {
-    @apply px-4 py-2 rounded-lg bg-secondary border border-border text-sm font-medium text-foreground 
-           hover:border-primary hover:bg-primary/10 transition-all duration-300;
+    @apply px-4 py-2 rounded-full bg-secondary border border-border
+           text-sm font-medium text-foreground;
+    cursor: pointer;
+    will-change: transform;
+    transition: transform 0.15s ease-out, box-shadow 0.25s ease;
   }
 
-  .timeline-dot {
-    @apply w-3 h-3 rounded-full bg-primary;
-    box-shadow: 0 0 12px hsl(217 91% 60% / 0.6);
-  }
-}
-
-@layer utilities {
-  .animate-fade-up {
-    animation: fadeUp 0.6s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-up-delay-1 {
-    animation: fadeUp 0.6s ease-out 0.1s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-up-delay-2 {
-    animation: fadeUp 0.6s ease-out 0.2s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-up-delay-3 {
-    animation: fadeUp 0.6s ease-out 0.3s forwards;
-    opacity: 0;
-  }
-
-  .animate-pulse-slow {
-    animation: pulseSlow 4s ease-in-out infinite;
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes pulseSlow {
-    0%, 100% {
-      opacity: 0.4;
-    }
-    50% {
-      opacity: 0.8;
-    }
-  }
-
-  .text-balance {
-    text-wrap: balance;
+  .skill-badge:hover {
+    box-shadow: 0 0 28px hsla(45, 90%, 55%, 0.45);
   }
 }
-/* ===== Skill badge magnetic interaction ===== */
 
-.skill-badge {
-  position: relative;
-  padding: 0.5rem 0.9rem;
-  border-radius: 9999px;
-  background: hsl(var(--secondary));
-  color: hsl(var(--foreground));
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  overflow: hidden;
-
-  transition: transform 0.15s ease-out, box-shadow 0.25s ease;
-  will-change: transform;
-}
-
-.skill-badge:hover {
-  box-shadow: 0 0 28px hsla(45, 90%, 55%, 0.45);
-}
-
-/* letters react on every hover */
-.skill-badge:hover .skill-letter {
-  animation: letter-jiggle 0.35s ease;
-}
+/* ================= ANIMATIONS ================= */
 
 .skill-letter {
   display: inline-block;
+}
+
+.skill-badge:hover .skill-letter {
+  animation: letter-jiggle 0.35s ease;
 }
 
 @keyframes letter-jiggle {
@@ -208,41 +113,38 @@
   40% { transform: translateY(-4px); }
   100% { transform: translateY(0); }
 }
-/* ===== Tech stack magnetic cards ===== */
+
+/* ================= TECH CARD (MAGNETIC ONLY) ================= */
 
 .tech-card {
-  transition: box-shadow 0.25s ease;
+  background: transparent !important;
+  box-shadow: none !important;
+
+  cursor: pointer;
+  will-change: transform;
+  transition: transform 0.18s ease-out;
 }
 
 .tech-card:hover {
-  box-shadow: 0 0 35px hsla(45, 90%, 55%, 0.35);
+  background: transparent !important;
+  box-shadow: none !important;
 }
-/* ===== Experience section animations ===== */
+
+.tech-card::before,
+.tech-card::after {
+  display: none !important;
+}
+
+/* ================= EXPERIENCE / EDUCATION ================= */
 
 .experience-card {
   transition: transform 0.2s ease-out, box-shadow 0.25s ease;
-  will-change: transform;
 }
 
 .experience-card:hover {
   box-shadow: 0 0 30px hsla(45, 90%, 55%, 0.35);
 }
 
-.timeline-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 9999px;
-  background: hsl(var(--primary));
-  box-shadow: 0 0 0 0 hsla(45, 90%, 55%, 0.6);
-  transition: box-shadow 0.3s ease;
-}
-
-.experience-card:hover + .timeline-dot,
-.experience-card:hover ~ .timeline-dot {
-  box-shadow: 0 0 12px hsla(45, 90%, 55%, 0.9);
-}
-
-/* education card */
 .education-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -251,7 +153,8 @@
   transform: translateY(-6px);
   box-shadow: 0 0 35px hsla(45, 90%, 55%, 0.4);
 }
-/* ===== Navbar typing animation ===== */
+
+/* ================= TYPING ================= */
 
 .typing-text {
   display: inline-block;
@@ -263,28 +166,13 @@
 }
 
 @keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 3ch; /* P N R */
-  }
+  from { width: 0; }
+  to { width: 3ch; }
 }
 
 @keyframes blink {
-  50% {
-    border-color: transparent;
-  }
+  50% { border-color: transparent; }
 }
-@keyframes typing-name {
-  from {
-    width: 0;
-  }
-  to {
-    width: 23ch; /* Length of "Pruthvi Narayana Reddy" */
-  }
-}
-/* ===== Footer typing animation ===== */
 
 .footer-typing {
   display: inline-block;
@@ -292,16 +180,10 @@
   white-space: nowrap;
   width: 0;
   border-right: 2px solid hsl(var(--primary));
-  animation: footer-typing 3.8s steps(23, end) forwards,
-             blink 0.8s step-end infinite;
+  animation: footer-typing 3.8s steps(23, end) forwards, blink 0.8s step-end infinite;
 }
 
 @keyframes footer-typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 23ch; /* "Pruthvi Narayana Reddy" */
-  }
+  from { width: 0; }
+  to { width: 23ch; }
 }
-
