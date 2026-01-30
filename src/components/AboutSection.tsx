@@ -19,42 +19,94 @@ const highlights = [
   }
 ];
 
+const paragraphs = [
+  `I am a final-year Bachelor of Engineering student specializing in Artificial Intelligence and Machine Learning, with a strong focus on backend development and intelligent systems.`,
+  `My work involves designing server-side logic, REST APIs, authentication systems, and databases—while integrating AI/ML models into backend workflows. I'm passionate about applying machine learning to real-world problems in security, automation, and computer vision.`,
+  `Beyond technical work, I actively take on leadership roles including Secretary General of a student club, Google Student Ambassador, and CEO of a student-led initiative.`
+];
+
 const AboutSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [typedText, setTypedText] = useState<string[]>([]);
+  const [hasTyped, setHasTyped] = useState(false);
 
+  /* ---------- Intersection Observer ---------- */
   useEffect(() => {
-    const currentRef = sectionRef.current;
-    if (!currentRef) return;
-
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting && !hasTyped) {
+          setIsVisible(true);
+          setHasTyped(true);
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
-    observer.observe(currentRef);
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [hasTyped]);
+
+  /* ---------- Typing Animation ---------- */
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let p = 0;
+    let c = 0;
+    let current = '';
+    const temp: string[] = [];
+
+    const type = () => {
+      if (p >= paragraphs.length) return;
+
+      const char = paragraphs[p][c];
+      current += char;
+      temp[p] = current;
+      setTypedText([...temp]);
+
+      c++;
+
+      let delay = 25;
+      if (char === ' ') delay = 500;
+      if (c === paragraphs[p].length) {
+        p++;
+        c = 0;
+        current = '';
+        delay = 1000;
+      }
+
+      setTimeout(type, delay);
+    };
+
+    type();
+  }, [isVisible]);
+
+  /* ---------- Magnetic Hover ---------- */
+  const onMouseMove = (
+    e: React.MouseEvent<HTMLDivElement>,
+    card: HTMLDivElement
+  ) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    card.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
+  };
+
+  const onMouseLeave = (card: HTMLDivElement) => {
+    card.style.transform = 'translate(0, 0)';
+  };
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 md:py-32 relative overflow-hidden">
+    <section
+      id="about"
+      ref={sectionRef}
+      className="py-24 md:py-32 relative overflow-hidden"
+    >
       <div className="section-container">
-        {/* Section Header */}
-        <div 
-          className="mb-16"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateX(0)' : 'translateX(-48px)',
-            transition: 'opacity 0.7s ease-out, transform 0.7s ease-out'
-          }}
-        >
+
+        {/* Header */}
+        <div className="mb-16">
           <span className="code-tag mb-4 inline-block">About</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             About <span className="gradient-text">Me</span>
@@ -63,65 +115,67 @@ const AboutSection = () => {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-12 items-start">
-          {/* Main Content */}
-          <div 
-            className="lg:col-span-3 space-y-6"
-            style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateX(0)' : 'translateX(-64px)',
-              transition: 'opacity 0.7s ease-out 0.2s, transform 0.7s ease-out 0.2s'
-            }}
-          >
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              I am a final-year Bachelor of Engineering student specializing in 
-              <span className="text-foreground font-medium"> Artificial Intelligence and Machine Learning</span>, 
-              with a strong focus on backend development and intelligent systems.
-            </p>
-            
-            <p className="text-muted-foreground leading-relaxed">
-              My work involves designing server-side logic, REST APIs, authentication systems, 
-              and databases—while integrating AI/ML models into backend workflows. I'm passionate 
-              about applying machine learning to real-world problems in security, automation, and 
-              computer vision.
-            </p>
 
-            <p className="text-muted-foreground leading-relaxed">
-              Beyond technical work, I actively take on leadership roles including 
-              <span className="text-foreground"> Secretary General</span> of a student club, 
-              <span className="text-foreground"> Google Student Ambassador</span>, and 
-              <span className="text-foreground"> CEO</span> of a student-led initiative.
-            </p>
+          {/* Left Content */}
+          <div className="lg:col-span-3 space-y-6">
+            {typedText.map((text, index) => (
+              <p
+                key={index}
+                className={`leading-relaxed text-muted-foreground ${
+                  index === 0 ? 'text-lg text-foreground' : ''
+                }`}
+              >
+                {text}
+                <span className="animate-pulse">|</span>
+              </p>
+            ))}
 
-            <div className="flex items-center gap-2 pt-4 text-muted-foreground">
-              <MapPin size={18} className="text-primary" />
-              <span>Bengaluru, India</span>
-            </div>
+            {typedText.length === paragraphs.length && (
+              <div className="flex items-center gap-2 pt-4 text-muted-foreground">
+                <MapPin size={18} className="text-primary" />
+                <span>Bengaluru, India</span>
+              </div>
+            )}
           </div>
 
-          {/* Highlight Cards */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Right Cards */}
+          <div className="lg:col-span-2 space-y-5">
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className="card-elevated p-5 hover:border-primary/50 group"
+                className="
+                  relative p-5 rounded-xl border border-border
+                  transition-all duration-300 ease-out
+                  hover:border-yellow-400/40
+                  hover:shadow-[0_0_30px_rgba(234,179,8,0.35)]
+                  before:absolute before:inset-0 before:rounded-xl
+                  before:bg-[radial-gradient(circle_at_top,rgba(234,179,8,0.15),transparent_60%)]
+                  before:opacity-0 hover:before:opacity-100
+                  before:transition-opacity before:duration-300
+                "
                 style={{
                   opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateX(0)' : 'translateX(-48px)',
-                  transition: `opacity 0.5s ease-out ${0.4 + index * 0.15}s, transform 0.5s ease-out ${0.4 + index * 0.15}s`
+                  transform: isVisible ? 'translateX(0)' : 'translateX(40px)',
+                  transitionDelay: `${0.6 + index * 0.15}s`
                 }}
+                onMouseMove={(e) => onMouseMove(e, e.currentTarget)}
+                onMouseLeave={(e) => onMouseLeave(e.currentTarget)}
               >
-                <div className="flex items-start gap-4">
-                  <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="relative z-10 flex items-start gap-4">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
                     <item.icon size={22} />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>

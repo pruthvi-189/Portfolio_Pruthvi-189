@@ -50,7 +50,7 @@ const projects = [
     technologies: ['Python', 'TensorFlow', 'OpenCV', 'CNN', 'Raspberry Pi'],
     flow:
       'Camera Input → Hand Detection → CNN Gesture Classification → Command Mapping → Raspberry Pi → Robotic Arm Actuation',
-    github: 'https://github.com/your-username/gesture-controlled-robotic-arm',
+    github: 'https://github.com/pruthvi-189/hand_mimic_arm',
     live: '',
     featured: true
   },
@@ -123,7 +123,7 @@ const ProjectsSection = () => {
     <section id="projects" className="py-24 md:py-32 relative">
       <div className="section-container">
         <div className="mb-16">
-          <span className="code-tag mb-4 inline-block">03. Projects</span>
+          <span className="code-tag mb-4 inline-block">Projects</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Featured <span className="gradient-text">Work</span>
           </h2>

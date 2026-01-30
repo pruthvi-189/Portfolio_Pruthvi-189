@@ -1,31 +1,77 @@
-import { Mail, Linkedin, Github, Phone } from 'lucide-react';
+import { useRef } from "react";
+import { Mail, Linkedin, Github, Phone } from "lucide-react";
 
 const contactLinks = [
   {
     icon: Phone,
-    label: 'Phone',
-    value: '+91 7022363858',
-    href: 'tel:+917022363858'
+    value: "+91 7022363858",
+    href: "tel:+917022363858",
   },
   {
     icon: Mail,
-    label: 'Email',
-    value: 'pruthvinarayanareddy@gmail.com',
-    href: 'mailto:pruthvinarayanareddy@gmail.com'
+    value: "pruthvinarayanareddy@gmail.com",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=pruthvinarayanareddy@gmail.com&su=Contact%20from%20Portfolio&body=Hi%20Pruthvi,"
   },
   {
     icon: Linkedin,
-    label: 'LinkedIn',
-    value: 'Pruthvi Narayana Reddy',
-    href: 'https://www.linkedin.com/in/pruthvi-narayana-reddy'
+    value: "Pruthvi Narayana Reddy",
+    href: "https://www.linkedin.com/in/pruthvi-narayana-reddy",
   },
   {
     icon: Github,
-    label: 'GitHub',
-    value: 'pruthvi-189',
-    href: 'https://github.com/pruthvi-189'
-  }
+    value: "pruthvi-189",
+    href: "https://github.com/pruthvi-189",
+  },
 ];
+
+const MagneticCard = ({ icon: Icon, value, href }) => {
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    card.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+  };
+
+  const handleMouseLeave = () => {
+    const card = cardRef.current;
+    card.style.transform = "translate(0px, 0px)";
+  };
+
+  return (
+    <a
+      ref={cardRef}
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative rounded-xl p-6 flex flex-col items-center gap-4
+                 bg-secondary/60 border border-border
+                 transition-all duration-300 ease-out
+                 hover:border-primary/60
+                 hover:shadow-[0_0_0_1px_rgba(234,179,8,0.65),0_16px_45px_rgba(234,179,8,0.4)]"
+    >
+      {/* Icon */}
+      <div
+        className="p-3 rounded-full bg-primary/10 text-primary
+                   group-hover:bg-primary group-hover:text-primary-foreground
+                   transition-colors duration-300"
+      >
+        <Icon size={24} />
+      </div>
+
+      {/* Value */}
+      <span className="text-sm text-muted-foreground text-center break-all">
+        {value}
+      </span>
+    </a>
+  );
+};
 
 const ContactSection = () => {
   return (
@@ -35,49 +81,23 @@ const ContactSection = () => {
         <div className="mb-16 text-center">
           <span className="code-tag mb-4 inline-block">05. Contact</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Let's <span className="gradient-text">Connect</span>
+            Let&apos;s <span className="gradient-text">Connect</span>
           </h2>
           <div className="w-20 h-1 bg-primary rounded-full mx-auto" />
         </div>
 
         <div className="max-w-4xl mx-auto">
           <div className="card-elevated p-8 md:p-12">
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto text-center">
-              I'm always open to discussing new opportunities, interesting projects, 
-              or collaborations in AI/ML and backend development.
+            <p className="text-lg text-muted-foreground mb-12 max-w-xl mx-auto text-center">
+              I&apos;m always open to discussing new opportunities, interesting
+              projects, or collaborations in AI/ML and backend development.
             </p>
 
-            {/* Contact Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              {contactLinks.map((contact, index) => (
-                <a
-                  key={index}
-                  href={contact.href}
-                  target={contact.href.startsWith('http') ? '_blank' : undefined}
-                  rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="group flex flex-col items-center gap-3 p-5 rounded-xl bg-secondary/50 border border-border
-                           hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
-                >
-                  <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <contact.icon size={24} />
-                  </div>
-                  <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-foreground transition-colors text-center break-all max-w-full">
-                    {contact.value}
-                  </span>
-                </a>
+            {/* Contact Cards */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactLinks.map((item, index) => (
+                <MagneticCard key={index} {...item} />
               ))}
-            </div>
-
-            {/* Quick CTA */}
-            <div className="text-center">
-              <a
-                href="mailto:pruthvinarayanareddy@gmail.com"
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-primary text-primary-foreground 
-                         font-semibold hover:bg-primary/90 transition-all duration-300 glow-effect hover:scale-105"
-              >
-                <Mail size={20} />
-                Send me an Email
-              </a>
             </div>
           </div>
         </div>
