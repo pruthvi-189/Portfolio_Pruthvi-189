@@ -67,7 +67,7 @@ const AboutSection = () => {
       c++;
 
       let delay = 25;
-      if (char === ' ') delay = 500;
+      if (char === ' ') delay = 25;
       if (c === paragraphs[p].length) {
         p++;
         c = 0;
