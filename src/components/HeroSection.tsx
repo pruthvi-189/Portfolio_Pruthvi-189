@@ -76,7 +76,7 @@ const HeroSection = () => {
 
               {/* View Resume */}
               <a
-                href="public\Pruthvi Narayana Reddy Resume.pdf"
+                href="/Pruthvi%20Narayana%20Reddy%20Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-8 py-4 rounded-lg 
